@@ -4,14 +4,20 @@ plugins {
 }
 
 android {
+    buildFeatures {
+        buildConfig = true // 确保启用BuildConfig生成
+    }
     namespace = "com.android.mykuikly"
-    compileSdk = 30
+    compileSdk = 34
     defaultConfig {
         applicationId = "com.android.mykuikly"
-        minSdk = 23
-        targetSdk = 30
+        minSdk = 21
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
+    }
+    lint {
+        targetSdk = 34 // 设置Lint检查的目标SDK
     }
 
     buildTypes {

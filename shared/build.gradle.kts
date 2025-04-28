@@ -113,10 +113,13 @@ dependencies {
 
 android {
     namespace = "com.android.mykuikly.shared"
-    compileSdk = 30
+    compileSdk = 34
     defaultConfig {
         minSdk = 21
-        targetSdk = 30
+        targetSdk = 34 // 设置测试目标SDK
+    }
+    lint {
+        targetSdk = 34 // 设置Lint检查的目标SDK
     }
     sourceSets {
         named("main") {
