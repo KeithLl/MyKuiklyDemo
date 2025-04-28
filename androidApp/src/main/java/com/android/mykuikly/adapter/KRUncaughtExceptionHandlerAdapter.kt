@@ -10,7 +10,8 @@ object KRUncaughtExceptionHandlerAdapter : IKRUncaughtExceptionHandlerAdapter {
 
     override fun uncaughtException(throwable: Throwable) {
         if (BuildConfig.DEBUG) {
-            throw throwable
+            Log.e(TAG, "KR error: ${throwable.stackTraceToString()}")
+//            throw throwable
         } else {
             Log.e(TAG, "KR error: ${throwable.stackTraceToString()}")
         }

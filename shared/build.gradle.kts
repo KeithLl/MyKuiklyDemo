@@ -118,9 +118,9 @@ android {
         minSdk = 21
         targetSdk = 34 // 设置测试目标SDK
     }
-    lint {
-        targetSdk = 34 // 设置Lint检查的目标SDK
-    }
+//    lint {
+//        targetSdk = 34 // 设置Lint检查的目标SDK
+//    }
     sourceSets {
         named("main") {
             assets.srcDirs("src/commonMain/assets")

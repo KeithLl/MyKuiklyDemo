@@ -16,9 +16,9 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
-    lint {
-        targetSdk = 34 // 设置Lint检查的目标SDK
-    }
+//    lint {
+//        targetSdk = 34 // 设置Lint检查的目标SDK
+//    }
 
     buildTypes {
         getByName("release") {
@@ -35,7 +35,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":shared"))
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+    implementation("com.tencent.kuikly-open:core-render-android:${Version.getKuiklyVersion()}")
+    implementation("com.tencent.kuikly-open:core:${Version.getKuiklyVersion()}")
+//    implementation(project(":shared"))
 
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.appcompat:appcompat:1.3.1")
