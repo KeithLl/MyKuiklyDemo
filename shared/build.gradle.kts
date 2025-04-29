@@ -123,6 +123,7 @@ android {
 //    }
     sourceSets {
         named("main") {
+            // 资源打包
             assets.srcDirs("src/commonMain/assets")
         }
     }

@@ -1,9 +1,12 @@
 package com.android.mykuikly
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -22,6 +25,11 @@ import com.android.mykuikly.adapter.KRThreadAdapter
 import com.android.mykuikly.adapter.KRUncaughtExceptionHandlerAdapter
 import com.android.mykuikly.module.KRBridgeModule
 import com.android.mykuikly.module.KRShareModule
+import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventName
+import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventParams
+import com.tencent.kuikly.core.render.android.expand.module.registerKuiklyBroadcastReceiver
+import com.tencent.kuikly.core.render.android.expand.module.sendKuiklyEvent
+import com.tencent.kuikly.core.render.android.expand.module.unregisterKuiklyBroadcastReceiver
 import org.json.JSONObject
 
 class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorDelegate {
@@ -42,6 +50,15 @@ class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorD
             }
         }
 
+
+    val kuiklyReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val eventName = intent.getKuiklyEventName() // 接收到的事件名字
+            val data = intent.getKuiklyEventParams() // kuikly侧传递的参数
+            Log.e("Keith", "Receive event: $eventName, data: $data")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,11 +68,13 @@ class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorD
         loadingView = findViewById(R.id.hr_loading)
         errorView = findViewById(R.id.hr_error)
         kuiklyRenderViewDelegator.onAttach(hrContainerView, "", pageName, createPageData())
+        registerKuiklyBroadcastReceiver(kuiklyReceiver)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         kuiklyRenderViewDelegator.onDetach()
+        unregisterKuiklyBroadcastReceiver(kuiklyReceiver)
     }
 
     override fun onPause() {
@@ -66,10 +85,18 @@ class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorD
     override fun onResume() {
         super.onResume()
         kuiklyRenderViewDelegator.onResume()
+
+        // 发送事件到Kuikly
+//        Handler().postDelayed({
+//            sendKuiklyEvent("test", JSONObject().apply{
+//                put("test", "TestMsg from MainApp")
+//            })
+//        }, 2500)
     }
 
     override fun registerExternalModule(kuiklyRenderExport: IKuiklyRenderExport) {
         super.registerExternalModule(kuiklyRenderExport)
+        // 注册模块
         with(kuiklyRenderExport) {
             moduleExport(KRBridgeModule.MODULE_NAME) {
                 KRBridgeModule()

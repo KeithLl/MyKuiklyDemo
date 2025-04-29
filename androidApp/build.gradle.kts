@@ -35,10 +35,10 @@ android {
 }
 
 dependencies {
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
-    implementation("com.tencent.kuikly-open:core-render-android:${Version.getKuiklyVersion()}")
-    implementation("com.tencent.kuikly-open:core:${Version.getKuiklyVersion()}")
-//    implementation(project(":shared"))
+//    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.aar"))))
+//    implementation("com.tencent.kuikly-open:core-render-android:${Version.getKuiklyVersion()}")
+//    implementation("com.tencent.kuikly-open:core:${Version.getKuiklyVersion()}")
+    implementation(project(":shared"))
 
     implementation("androidx.recyclerview:recyclerview:1.2.1")
     implementation("androidx.appcompat:appcompat:1.3.1")
