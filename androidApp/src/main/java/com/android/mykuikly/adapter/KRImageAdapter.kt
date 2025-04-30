@@ -37,7 +37,6 @@ object KRImageAdapter : IKRImageAdapter {
         imageLoadOption: HRImageLoadOption,
         callback: (drawable: Drawable?) -> Unit,
     ) {
-        Log.e("Keith", "$imageLoadOption")
         val creator = if (imageLoadOption.isAssets()) {
             val assetPath = imageLoadOption.src.substring(HRImageLoadOption.SCHEME_ASSETS.length)
             Picasso.get().load(Uri.parse("file:///android_asset/$assetPath"))

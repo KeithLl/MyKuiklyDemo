@@ -1,6 +1,7 @@
 package com.android.mykuikly.pages
 
 import com.android.mykuikly.base.BasePager
+import com.android.mykuikly.modules.MyLogModule
 import com.android.mykuikly.widgets.TitleBar
 import com.tencent.kuikly.core.annotations.Page
 import com.tencent.kuikly.core.base.Color
@@ -10,6 +11,7 @@ import com.tencent.kuikly.core.base.attr.ImageUri
 import com.tencent.kuikly.core.log.KLog
 import com.tencent.kuikly.core.module.CallbackRef
 import com.tencent.kuikly.core.module.MemoryCacheModule
+import com.tencent.kuikly.core.module.Module
 import com.tencent.kuikly.core.module.NotifyModule
 import com.tencent.kuikly.core.module.RouterModule
 import com.tencent.kuikly.core.nvi.serialization.json.JSONObject
@@ -48,11 +50,30 @@ internal class HelloWorldPage : BasePager() {
         cacheModule1?.setObject("test", "test")
 
         // 添加事件监听
-        eventCallbackRef = acquireModule<NotifyModule>(NotifyModule.MODULE_NAME).addNotify("test") { data ->
-            // data参数为发送方传递过来的参数
-            // 事件处理
-            KLog.e("Keith", "receive test event, data: $data")
-        }
+        eventCallbackRef =
+            acquireModule<NotifyModule>(NotifyModule.MODULE_NAME).addNotify("test") { data ->
+                // data参数为发送方传递过来的参数
+                // 事件处理
+                KLog.e("Keith", "receive test event in HelloWorld Page, data: $data")
+            }
+
+        // 使用自定义Module
+        val acquireModule = acquireModule<MyLogModule>("KRMyLogModule")
+        acquireModule.log("hello world from kuikly myLogModule")
+        acquireModule.logWithCallback(
+            "hello world from kuikly myLogModuleCallback",
+            callbackFn = {
+                val result = it?.optString("result")
+                KLog.e("Keith", "callback result in kuikly : $result")
+            })
+    }
+
+    // 注册外部的Module,会在created之前调用
+    override fun createExternalModules(): Map<String, Module>? {
+        KLog.e("Keith", "createExternalModules")
+        return mapOf(
+            "KRMyLogModule" to MyLogModule(),
+        )
     }
 
     override fun pageWillDestroy() {
@@ -68,6 +89,19 @@ internal class HelloWorldPage : BasePager() {
                 backgroundColor(Color.WHITE)
                 justifyContentCenter()
                 alignItemsCenter()
+            }
+
+            Image {
+                attr {
+                    absolutePosition(top = 0f, left = 0f, right = 0f, bottom = 0f)
+//                    size(pagerData.pageViewWidth, pagerData.pageViewHeight)
+                    backgroundColor(color = Color.GREEN)
+                    // 使用 common 目录下的相对路径
+//                    src(ImageUri.commonAssets("all_pass.png"))
+                    src(ImageUri.pageAssets("all_pass_1.png"))
+//                    src(ImageUri.pageAssets("close.png"))
+//                    resizeStretch()//  图片拉伸
+                }
             }
 
             TitleBar {

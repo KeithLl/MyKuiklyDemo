@@ -24,6 +24,7 @@ import com.android.mykuikly.adapter.KRRouterAdapter
 import com.android.mykuikly.adapter.KRThreadAdapter
 import com.android.mykuikly.adapter.KRUncaughtExceptionHandlerAdapter
 import com.android.mykuikly.module.KRBridgeModule
+import com.android.mykuikly.module.KRMyLogModule
 import com.android.mykuikly.module.KRShareModule
 import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventName
 import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventParams
@@ -55,7 +56,10 @@ class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorD
         override fun onReceive(context: Context, intent: Intent) {
             val eventName = intent.getKuiklyEventName() // 接收到的事件名字
             val data = intent.getKuiklyEventParams() // kuikly侧传递的参数
-            Log.e("Keith", "Receive event: $eventName, data: $data")
+            Log.e(
+                "Keith",
+                "Receive event in Native , pageName is : ${pageName}: $eventName, data: $data"
+            )
         }
     }
 
@@ -97,12 +101,17 @@ class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorD
     override fun registerExternalModule(kuiklyRenderExport: IKuiklyRenderExport) {
         super.registerExternalModule(kuiklyRenderExport)
         // 注册模块
+        Log.e("Keith", "Register Module $kuiklyRenderExport")
         with(kuiklyRenderExport) {
             moduleExport(KRBridgeModule.MODULE_NAME) {
                 KRBridgeModule()
             }
             moduleExport(KRShareModule.MODULE_NAME) {
                 KRShareModule()
+            }
+            Log.e("Keith", "Register Module inner ${KRMyLogModule.MODULE_NAME}")
+            moduleExport(KRMyLogModule.MODULE_NAME) {
+                KRMyLogModule()
             }
         }
     }

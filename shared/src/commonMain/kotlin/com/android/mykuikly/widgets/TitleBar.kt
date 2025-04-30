@@ -4,6 +4,7 @@ import com.tencent.kuikly.core.base.Color
 import com.tencent.kuikly.core.base.ComposeView
 import com.tencent.kuikly.core.base.ComposeAttr
 import com.tencent.kuikly.core.base.ComposeEvent
+import com.tencent.kuikly.core.base.Scale
 import com.tencent.kuikly.core.base.ViewBuilder
 import com.tencent.kuikly.core.base.ViewContainer
 import com.tencent.kuikly.core.base.attr.ImageUri
@@ -32,23 +33,24 @@ internal class TitleBarView : ComposeView<TitleBarViewAttr, TitleBarViewEvent>()
                     size(pagerData.pageViewWidth, 44f)
                     marginTop(pagerData.statusBarHeight)
                     allCenter()
-                    backgroundColor(Color.GRAY)
+                    backgroundColor(Color.BLUE)
                 }
 
                 Image {
-//                    attr {
-//                        size(16f, 16f)
-//                        src(BASE_64)
-//                        resizeContain()
-//                        absolutePosition(left = 15f, top = (44f - 16f) / 2)
-//                    }
                     attr {
-                        // 使用 common 目录下的相对路径,必须有size
                         size(16f, 16f)
+                        src(BASE_64)
+                        tintColor(Color.WHITE)
                         resizeContain()
                         absolutePosition(left = 15f, top = (44f - 16f) / 2)
-                        src(ImageUri.commonAssets("close.png"))
                     }
+//                    attr {
+//                        // 使用 common 目录下的相对路径,必须有size
+//                        size(16f, 16f)
+//                        resizeContain()
+//                        absolutePosition(left = 15f, top = (44f - 16f) / 2)
+//                        src(ImageUri.commonAssets("close.png"))
+//                    }
                     event {
                         click {
                             ctx.event.clickHandler?.invoke() // 回调给外部
@@ -60,6 +62,7 @@ internal class TitleBarView : ComposeView<TitleBarViewAttr, TitleBarViewEvent>()
                     attr {
                         fontWeightBold()
                         fontSize(16f)
+                        color(Color.WHITE)
                         text(ctx.attr.title)
                     }
                 }
