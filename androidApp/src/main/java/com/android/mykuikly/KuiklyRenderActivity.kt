@@ -30,7 +30,6 @@ import com.android.mykuikly.widgets.HRMyImageView
 import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventName
 import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventParams
 import com.tencent.kuikly.core.render.android.expand.module.registerKuiklyBroadcastReceiver
-import com.tencent.kuikly.core.render.android.expand.module.sendKuiklyEvent
 import com.tencent.kuikly.core.render.android.expand.module.unregisterKuiklyBroadcastReceiver
 import org.json.JSONObject
 
@@ -59,7 +58,7 @@ class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorD
             val data = intent.getKuiklyEventParams() // kuikly侧传递的参数
             Log.e(
                 "Keith",
-                "Receive event in Native , pageName is : ${pageName}: $eventName, data: $data"
+                "Receive event in RenderActivity , pageName is : ${pageName}: $eventName, data: $data"
             )
         }
     }
