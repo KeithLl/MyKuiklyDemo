@@ -2,6 +2,7 @@ package com.android.mykuikly.pages
 
 import com.android.mykuikly.base.BasePager
 import com.android.mykuikly.modules.MyLogModule
+import com.android.mykuikly.widgets.MyImageView
 import com.android.mykuikly.widgets.TitleBar
 import com.tencent.kuikly.core.annotations.Page
 import com.tencent.kuikly.core.base.Color
@@ -149,6 +150,7 @@ internal class HelloWorldPage : BasePager() {
                 }
             }
 
+            // 加载本地assets图片
             Image {
                 attr {
                     size(pagerData.pageViewWidth, 200f)
@@ -157,6 +159,19 @@ internal class HelloWorldPage : BasePager() {
 //                    src(ImageUri.commonAssets("all_pass.png"))
                     src(ImageUri.pageAssets("all_pass_1.png"))
 //                    src(ImageUri.pageAssets("close.png"))
+                }
+            }
+
+            // 自定义组件
+            MyImageView {
+                attr {
+                    size(176f, 132f)
+                    src("https://vfiles.gtimg.cn/wuji_dashboard/xy/starter/844aa82b.png")
+                }
+                event {
+                    loadSuccess {
+                        KLog.e("Keith", "MyImageView loadSuccess")
+                    }
                 }
             }
 

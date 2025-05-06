@@ -26,6 +26,7 @@ import com.android.mykuikly.adapter.KRUncaughtExceptionHandlerAdapter
 import com.android.mykuikly.module.KRBridgeModule
 import com.android.mykuikly.module.KRMyLogModule
 import com.android.mykuikly.module.KRShareModule
+import com.android.mykuikly.widgets.HRMyImageView
 import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventName
 import com.tencent.kuikly.core.render.android.expand.module.getKuiklyEventParams
 import com.tencent.kuikly.core.render.android.expand.module.registerKuiklyBroadcastReceiver
@@ -118,8 +119,11 @@ class KuiklyRenderActivity : AppCompatActivity(), KuiklyRenderViewBaseDelegatorD
 
     override fun registerExternalRenderView(kuiklyRenderExport: IKuiklyRenderExport) {
         super.registerExternalRenderView(kuiklyRenderExport)
+        // 注册对应的View到Kuikly
         with(kuiklyRenderExport) {
-
+            renderViewExport("MyImageView", { context ->
+                HRMyImageView(context)
+            })
         }
     }
 
