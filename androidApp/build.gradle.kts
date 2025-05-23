@@ -6,6 +6,7 @@ plugins {
 android {
     buildFeatures {
         buildConfig = true // 确保启用BuildConfig生成
+        viewBinding = true
     }
     namespace = "com.android.mykuikly"
     compileSdk = 34

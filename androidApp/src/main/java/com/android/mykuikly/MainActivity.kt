@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.android.mykuikly.pages.medal.MedalListFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,9 +31,9 @@ class MainActivity : AppCompatActivity() {
 
         tvJump.setOnClickListener {
             Log.e("Keith", "click jump")
-            var fragment = CustomRenderFragment()
+            var fragment = MedalListFragment()
             var bundle = Bundle()
-            bundle.putString(KEY_PAGE_NAME, "HelloWorld")
+            bundle.putString(KEY_PAGE_NAME, "MedalList")
             fragment.arguments = bundle
             supportFragmentManager.beginTransaction().add(R.id.main_container, fragment).commit()
         }

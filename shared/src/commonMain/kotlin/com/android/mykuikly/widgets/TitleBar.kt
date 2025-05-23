@@ -4,10 +4,8 @@ import com.tencent.kuikly.core.base.Color
 import com.tencent.kuikly.core.base.ComposeView
 import com.tencent.kuikly.core.base.ComposeAttr
 import com.tencent.kuikly.core.base.ComposeEvent
-import com.tencent.kuikly.core.base.Scale
 import com.tencent.kuikly.core.base.ViewBuilder
 import com.tencent.kuikly.core.base.ViewContainer
-import com.tencent.kuikly.core.base.attr.ImageUri
 import com.tencent.kuikly.core.views.Image
 import com.tencent.kuikly.core.views.Text
 import com.tencent.kuikly.core.views.View
@@ -27,13 +25,13 @@ internal class TitleBarView : ComposeView<TitleBarViewAttr, TitleBarViewEvent>()
         val ctx = this
         // 返回对应布局
         return {
-
             View {
                 attr {
-                    size(pagerData.pageViewWidth, 44f)
+                    size(pagerData.pageViewWidth, 50f)
                     marginTop(pagerData.statusBarHeight)
+                    flexDirectionRow()
                     allCenter()
-                    backgroundColor(Color.BLUE)
+                    backgroundColor(0xff47b3ff)
                 }
 
                 Image {
@@ -61,12 +59,19 @@ internal class TitleBarView : ComposeView<TitleBarViewAttr, TitleBarViewEvent>()
                 Text {
                     attr {
                         fontWeightBold()
-                        fontSize(16f)
+                        fontSize(18f)
                         color(Color.WHITE)
                         text(ctx.attr.title)
                     }
                 }
 
+                View {
+                    attr {
+                        size(pagerData.pageViewWidth, 1f)
+                        absolutePosition(bottom = 0f)
+                        backgroundColor(0x99999999)
+                    }
+                }
             }
         }
     }
