@@ -1,5 +1,6 @@
 package com.android.mykuikly.widgets
 
+import com.android.mykuikly.beans.MedalBean
 import com.tencent.kuikly.core.base.Color
 import com.tencent.kuikly.core.base.ComposeView
 import com.tencent.kuikly.core.base.ComposeAttr
@@ -7,6 +8,7 @@ import com.tencent.kuikly.core.base.ComposeEvent
 import com.tencent.kuikly.core.base.ViewBuilder
 import com.tencent.kuikly.core.base.ViewContainer
 import com.tencent.kuikly.core.base.attr.ImageUri
+import com.tencent.kuikly.core.nvi.serialization.ISerialization
 import com.tencent.kuikly.core.views.Image
 import com.tencent.kuikly.core.views.Text
 import com.tencent.kuikly.core.views.View
@@ -37,7 +39,7 @@ internal class MedalItemView : ComposeView<MedalItemViewAttr, MedalItemViewEvent
                 Image {
                     attr {
                         size(80f, 80f)
-                        src(ImageUri.pageAssets("medal_icon.png"))
+                        src(if (ctx.attr.medalItem.isGranted) ctx.attr.medalItem.activeIcon else ctx.attr.medalItem.icon)
                     }
                 }
 
@@ -45,8 +47,8 @@ internal class MedalItemView : ComposeView<MedalItemViewAttr, MedalItemViewEvent
                     attr {
                         fontWeightBold()
                         fontSize(14f)
-                        color(Color.WHITE)
-                        text(ctx.attr.name)
+                        color(Color.BLACK)
+                        text(ctx.attr.medalItem.name)
                         lines(1)
                         lineHeight(20f)
                     }
@@ -62,9 +64,7 @@ internal class MedalItemView : ComposeView<MedalItemViewAttr, MedalItemViewEvent
 
 
 internal class MedalItemViewAttr : ComposeAttr() {
-    var url: String = ""
-    var name: String = ""
-    var title: String = ""
+    lateinit var medalItem: MedalBean
 }
 
 internal class MedalItemViewEvent : ComposeEvent() {

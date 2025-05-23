@@ -7,12 +7,24 @@ import com.tencent.kuikly.core.base.ComposeEvent
 import com.tencent.kuikly.core.base.ViewBuilder
 import com.tencent.kuikly.core.base.ViewContainer
 import com.tencent.kuikly.core.base.attr.ImageUri
+import com.tencent.kuikly.core.log.KLog
+import com.tencent.kuikly.core.module.NotifyModule
+import com.tencent.kuikly.core.reactive.handler.observable
+import com.tencent.kuikly.core.timer.CallbackRef
 import com.tencent.kuikly.core.views.Image
 import com.tencent.kuikly.core.views.Text
 import com.tencent.kuikly.core.views.View
+import kotlin.getValue
 
 // 自定义组件,Medal头部
 internal class MedalTitleView : ComposeView<MedalTitleViewAttr, MedalTitleViewEvent>() {
+
+    private val notifyModule by lazy(LazyThreadSafetyMode.NONE) {
+        acquireModule<NotifyModule>(NotifyModule.MODULE_NAME)
+    }
+    private var titleText by observable("快去获取徽章吧")
+    private var titleUrl by observable("")
+    private lateinit var notifyRef: CallbackRef
 
     override fun createEvent(): MedalTitleViewEvent {
         return MedalTitleViewEvent()
@@ -20,6 +32,21 @@ internal class MedalTitleView : ComposeView<MedalTitleViewAttr, MedalTitleViewEv
 
     override fun createAttr(): MedalTitleViewAttr {
         return MedalTitleViewAttr()
+    }
+
+    override fun viewDidLoad() {
+        super.viewDidLoad()
+
+        notifyRef = notifyModule.addNotify("onMedalListPageDidMount") {
+            KLog.e("Keith", "$it, ${it?.optJSONObject("name")}")
+            titleText = "${it?.optString("name")}"
+            titleUrl = "${it?.optString("url")}"
+        }
+    }
+
+    override fun viewDidUnload() {
+        notifyModule.removeNotify("onMedalListPageDidMount", notifyRef)
+        super.viewDidUnload()
     }
 
     override fun body(): ViewBuilder {
@@ -51,12 +78,20 @@ internal class MedalTitleView : ComposeView<MedalTitleViewAttr, MedalTitleViewEv
                     }
                 }
 
+                Image {
+                    attr {
+                        size(88f, 88f)
+                        src(ctx.titleUrl)
+                        absolutePosition(top = 40f, right = 33f)
+                    }
+                }
+
                 Text {
                     attr {
                         fontWeightBold()
                         fontSize(22f)
                         color(Color.WHITE)
-                        text(ctx.attr.title)
+                        text(ctx.titleText)
                         absolutePosition(left = 26f, top = 66f)
                     }
                 }
@@ -65,10 +100,7 @@ internal class MedalTitleView : ComposeView<MedalTitleViewAttr, MedalTitleViewEv
         }
     }
 
-    companion object {
-        private const val BASE_64 =
-            "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAASBAMAAAB/WzlGAAAAElBMVEUAAAAAAAAAAAAAAAAAAAAAAADgKxmiAAAABXRSTlMAIN/PELVZAGcAAAAkSURBVAjXYwABQTDJqCQAooSCHUAcVROCHBiFECTMhVoEtRYA6UMHzQlOjQIAAAAASUVORK5CYII="
-    }
+    companion object {}
 }
 
 
