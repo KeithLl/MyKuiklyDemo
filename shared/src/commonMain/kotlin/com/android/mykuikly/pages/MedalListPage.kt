@@ -83,7 +83,7 @@ internal class MedalListPage : BasePager() {
 
             TitleBar {
                 attr {
-                    title = "Hello World Title"
+                    title = "全部勋章"
                 }
                 event {
                     backIconClick {
@@ -246,7 +246,7 @@ internal class ActionSheetView : ComposeView<ActionSheetViewAttr, ActionSheetEve
                 } else {
                     backgroundColor(Color(0, 0, 0, 0f))
                 }
-                animation(Animation.springEaseIn(0.5f, 0.92f, 1f), ctx.animated)
+//                animation(Animation.springEaseIn(0.5f, 0.92f, 1f), ctx.animated)
 
                 // 三生三世
 
@@ -255,13 +255,13 @@ internal class ActionSheetView : ComposeView<ActionSheetViewAttr, ActionSheetEve
             event {
                 click {
                     ctx.animated = false
+                    this@ActionSheetView.emit(ActionSheetEvent.CLOSE, it)
                 }
-                animationCompletion {
-                    if (!ctx.animated) {
-                        KLog.e("Keith", "22224343434434 animationCompletion")
-                        this@ActionSheetView.emit(ActionSheetEvent.CLOSE, it)
-                    }
-                }
+//                animationCompletion {
+//                    if (!ctx.animated) {
+//                        this@ActionSheetView.emit(ActionSheetEvent.CLOSE, it)
+//                    }
+//                }
             }
 
             View {
@@ -277,7 +277,7 @@ internal class ActionSheetView : ComposeView<ActionSheetViewAttr, ActionSheetEve
                     marginRight(50f)
                     marginLeft(50f)
                     allCenter()
-                    animation(Animation.springEaseIn(0.5f, 0.92f, 1f), ctx.animated)
+//                    animation(Animation.springEaseIn(0.5f, 0.92f, 1f), ctx.animated)
                 }
 
 
